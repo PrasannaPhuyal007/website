@@ -1,4 +1,49 @@
 <html>
   <head>prasanna phuyal</head>
-  <body>prasanna phuyal</body>
+  <body>prasanna phuyal.  class SLLNode {
+    int data;
+    SLLNode next;
+
+    SLLNode(int d) {
+        data = d;
+        next = null;
+    }
+}
+
+class SLL {
+    SLLNode head;
+
+    SLL() {
+        head = null;
+    }
+
+    // Insert at beginning
+    void addToHead(int el) {
+        SLLNode newNode = new SLLNode(el);
+        newNode.next = head;
+        head = newNode;
+    }
+
+    // Display list
+    void traverse() {
+        SLLNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        SLL sl = new SLL();
+
+        sl.addToHead(10);
+        sl.addToHead(20);
+        sl.addToHead(30);
+
+        System.out.println("Elements of Linked List:");
+        sl.traverse();
+    }
+}
+  </body>
 </html>
