@@ -1,49 +1,1544 @@
-<html>
-  <head>prasanna phuyal</head>
-  <body>prasanna phuyal.  class SLLNode {
-    int data;
-    SLLNode next;
-
-    SLLNode(int d) {
-        data = d;
-        next = null;
-    }
-}
-
-class SLL {
-    SLLNode head;
-
-    SLL() {
-        head = null;
-    }
-
-    // Insert at beginning
-    void addToHead(int el) {
-        SLLNode newNode = new SLLNode(el);
-        newNode.next = head;
-        head = newNode;
-    }
-
-    // Display list
-    void traverse() {
-        SLLNode temp = head;
-        while (temp != null) {
-            System.out.print(temp.data + " ");
-            temp = temp.next;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRASQ Output Screenshots – All Files</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
         }
-        System.out.println();
-    }
+        body {
+            background: #f4f7fc;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #0b2a4a;
+            border-bottom: 3px solid #2a7de1;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h1 small {
+            font-size: 16px;
+            font-weight: 400;
+            color: #3d5a78;
+            margin-left: auto;
+        }
+        .file-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .file-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            border: 1px solid #e9edf4;
+            transition: box-shadow 0.2s;
+        }
+        .file-card:hover {
+            box-shadow: 0 12px 32px rgba(0, 20, 60, 0.10);
+        }
+        .file-header {
+            background: #f0f4fe;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dde3ed;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .file-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #103457;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .file-header h2 span {
+            background: #1f5f9e;
+            color: white;
+            font-size: 12px;
+            padding: 0 12px;
+            border-radius: 30px;
+            line-height: 22px;
+            font-weight: 500;
+        }
+        .file-header .badge {
+            background: #e9edf4;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #1f3b57;
+        }
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+        }
+        .preview-iframe-wrap {
+            background: #fafbfc;
+            padding: 12px;
+            border-bottom: 1px solid #e9edf4;
+        }
+        .preview-iframe-wrap iframe {
+            width: 100%;
+            height: 360px;
+            border: 1px solid #dde1e9;
+            border-radius: 12px;
+            background: white;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .code-toggle {
+            background: #f7f9fd;
+            padding: 8px 20px;
+            border: none;
+            border-bottom: 1px solid #e9edf4;
+            width: 100%;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1f4970;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.15s;
+        }
+        .code-toggle:hover {
+            background: #edf2fa;
+        }
+        .code-toggle::after {
+            content: "▾";
+            margin-left: auto;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .code-toggle.open::after {
+            transform: rotate(180deg);
+        }
+        .code-content {
+            display: none;
+            background: #1e1f29;
+            padding: 16px;
+            overflow-x: auto;
+            border-top: 1px solid #2f3547;
+        }
+        .code-content pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .code-content.open {
+            display: block;
+        }
+        .note {
+            margin-top: 30px;
+            background: #dce6f5;
+            padding: 14px 24px;
+            border-radius: 40px;
+            color: #103457;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .footer-note {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #3e5d7e;
+            text-align: center;
+            border-top: 1px solid #dbe1ec;
+            padding-top: 25px;
+        }
+        @media (max-width: 600px) {
+            .preview-iframe-wrap iframe {
+                height: 240px;
+            }
+            .file-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h1>
+        📸 PRASQ Output Screenshots
+        <small>All files · live preview + source</small>
+    </h1>
 
-    public static void main(String[] args) {
-        SLL sl = new SLL();
+    <div class="file-grid" id="fileGrid"></div>
 
-        sl.addToHead(10);
-        sl.addToHead(20);
-        sl.addToHead(30);
+    <div class="footer-note">
+        ⚡ Click the code toggle to view the raw HTML · previews rendered inside iframes
+    </div>
+</div>
 
-        System.out.println("Elements of Linked List:");
-        sl.traverse();
-    }
+<script>
+    // ---------- all file data (HTML content) ----------
+    const fileData = [
+        { id: 'PRASQ1', html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Page</title>
+</head>
+<body>
+    <h1>Welcome to HTML</h1>
+    <p>This is a basic HTML page.</p>
+</body>
+</html>` },
+        { id: 'PRASQ2', html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Page</title>
+</head>
+<body>
+    <h1>Welcome to HTML</h1>
+    <p>This is a basic HTML page.</p>
+</body>
+</html>` },
+        { id: 'PRASQ3', html: `<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Text Formatting</h2>
+
+<b>Bold Text</b><br>
+
+<strong>Strong Text</strong><br>
+
+<i>Italic Text</i><br>
+
+<em>Emphasized Text</em><br>
+
+<q>Short Quote</q>
+
+<blockquote>
+Block quotation example.
+</blockquote>
+
+<del>Deleted Text</del><br>
+
+<ins>Inserted Text</ins><br>
+
+<font color="blue">Font Tag Text</font><br>
+
+<pre>
+Preformatted
+   Text
+</pre>
+
+<code>
+print("Hello World");
+</code>
+<br>
+
+<tt>Teletype Text</tt><br>
+
+H<sub>2</sub>O<br>
+
+x<sup>2</sup><br>
+
+&copy; 2026
+
+</body>
+
+</html>` },
+        { id: 'PRASQ4', html: `<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+body{
+    font-family:Arial;
 }
-  </body>
+
+h2{ 
+    color:blue;
+}
+
+ul, ol{
+    background:#f2f2f2;
+    width:300px;
+    padding:15px;
+}
+</style>
+</head>
+<body>
+<h2>Tribhuvan University</h2>
+<h3>Faculties</h3>
+<ul>
+    <li>Faculty of Humanities</li>
+    <li>Faculty of Management</li>
+    <li>Faculty of Science and Technology</li>
+    <li>Faculty of Education</li>
+</ul>
+<h3>Programs</h3>
+<ol>
+    <li>Bachelor of Computer Application (BCA)</li>
+    <li>Bachelor of Information Management (BIM)</li>
+    <li>Bachelor of Science (B.Sc)</li>
+    <li>Bachelor of Business Studies (BBS)</li>
+</ol>
+</body>
+</html>` },
+        { id: 'PRASQ5', html: `<!DOCTYPE html>
+<html>
+<body>
+
+<h2 align="center">Class Routine</h2>
+
+<table border="1" cellpadding="10" cellspacing="3" align="center">
+
+<tr>
+<th>Day</th>
+<th>6:00-8:00</th>
+<th>7:00-7:30</th>
+<th>7:30-9:30</th>
+</tr>
+
+<tr>
+<td>Monday</td>
+<td>Web Technology II</td>
+<td rowspan="4">Break</td>
+<td>Database</td>
+</tr>
+
+<tr>
+<td>Tuesday</td>
+<td>OS</td>
+<td>Networking</td>
+</tr>
+
+<tr>
+<td>Wednesday</td>
+<td>Java</td>
+<td>Python</td>
+</tr>
+
+<tr>
+<td>Thursday</td>
+<td>Database</td>
+<td>Microprocessor</td>
+</tr>
+
+<tr>
+<td>Friday</td>
+<td colspan="3">Project Work</td>
+</tr>
+
+</table>
+
+</body>
+
+</html>` },
+        { id: 'PRASQ10', html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigation Menu Layout</title>
+    <style>
+        .navbar {
+            background-color: #fffa36;
+            padding: 15px;
+        }
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        .navbar li {
+            display: flex;
+            align-items: center;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #4b0082;
+            font-family: sans-serif;
+            font-size: 18px;
+            padding: 5px 10px;
+        }
+        .navbar .active a {
+            background-color: #5d3fd3;
+            color: white;
+            border: 1px solid #4b0082;
+        }
+        .divider {
+            color: #333;
+            font-size: 20px;
+            padding: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li class="active"><a href="#">Home</a></li>
+            <span class="divider">|</span>
+            <li><a href="#">About</a></li>
+            <span class="divider">|</span>
+            <li><a href="#">Services</a></li>
+            <span class="divider">|</span>
+            <li><a href="#">Gallery</a></li>
+            <span class="divider">|</span>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+</body>
+</html>` },
+        { id: 'PRASQ11', html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Dropdown Navigation Menu</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #7b1fa2, #1565c0);
+            font-family: sans-serif;
+            height: 100vh;
+            margin: 0;
+            padding: 30px;
+        }
+        .navbar {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: space-around;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .nav-item {
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+        .nav-item a {
+            display: block;
+            padding: 15px 20px;
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 15%;
+            background-color: #f5f5f5;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            min-width: 180px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            text-align: left;
+        }
+        .dropdown a {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .dropdown a:hover {
+            background-color: #ffffff;
+        }
+        .nav-item:hover .dropdown {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <ul class="navbar">
+        <li class="nav-item"><a href="#">Home</a></li>
+        <li class="nav-item">
+            <a href="#">Services ^</a>
+            <ul class="dropdown">
+                <li><a href="#">Design</a></li>
+                <li><a href="#">Development</a></li>
+                <li><a href="#">Accessibility</a></li>
+                <li><a href="#">Content Strategy</a></li>
+                <li><a href="#">Training</a></li>
+            </ul>
+        </li>
+        <li class="nav-item"><a href="#">Portfolio </a></li>
+        <li class="nav-item"><a href="#">About </a></li>
+    </ul>
+
+</body>
+</html>` },
+        { id: 'PRASQ12', html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #063970;
+            padding: 15px 30px;
+            color: white;
+            flex-wrap: wrap;
+        }
+        h1 {
+            font-size: 20px;
+        }
+        button {
+            display: none;
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            button {
+                display: block;
+            }
+            ul {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 15px;
+                text-align: center;
+            }
+            li {
+                border-top: 1px solid #1a4f8a;
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mystery Code</h1>
+        <button>Menu</button>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Service</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </header>
+
+</body>
+</html>` },
+        { id: 'PRASQ13', html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration and Login Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        body {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://picsum.photos') no-repeat center center/cover;
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .container {
+            display: flex;
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .box {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(20, 24, 30, 0.8);
+            padding: 30px;
+            border-radius: 4px;
+        }
+        h2 {
+            color: #00bcd4;
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 4px;
+            outline: none;
+        }
+        .hint {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        .radio-group, .check-group {
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        .radio-group label, .check-group label {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #b58125;
+            border: none;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background: #96691d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="title">Registration / Login Form</h1>
+
+    <div class="container">
+        <!-- Register Section -->
+        <div class="box">
+            <h2>Register Form :</h2>
+            <form>
+                <div class="form-group">
+                    <input type="text" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required>
+                    <div class="hint">Please enter a valid email address</div>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                    <div class="hint">Minimum of 6 characters</div>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Confirm password" required>
+                </div>
+                <div class="radio-group">
+                    <label><input type="radio" name="gender" value="female"> Female</label>
+                    <label><input type="radio" name="gender" value="male"> Male</label>
+                </div>
+                <div class="check-group">
+                    <label><input type="checkbox" required> I have read and accept terms of use.</label>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+        </div>
+
+        <!-- Login Section -->
+        <div class="box">
+            <h2>Login form :</h2>
+            <form>
+                <div class="form-group">
+                    <input type="email" placeholder="Enter Your Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="check-group">
+                    <label><input type="checkbox"> Remember me</label>
+                </div>
+                <button type="submit" class="btn" style="margin-top: 55px;">Login</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>` },
+        { id: 'PRASQ14', html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Float Layout Structure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+
+        .header {
+            background-color: #4b527e;
+            height: 100px;
+            padding: 10px;
+        }
+
+        .menu {
+            background-color: #7b8e7c;
+            height: 40px;
+            padding: 10px;
+        }
+
+        /* Container to group all floated columns together */
+        .main-container {
+            width: 100%;
+        }
+
+        .left-side {
+            background-color: #a85454;
+            width: 25%;
+            height: 400px;
+            float: left;
+            padding: 10px;
+        }
+
+        .content {
+            background-color: #03a9f4;
+            width: 50%;
+            height: 400px;
+            float: left;
+            padding: 10px;
+        }
+
+        .right-side {
+            background-color: #7c73f6;
+            width: 25%;
+            height: 400px;
+            float: left;
+            padding: 10px;
+        }
+
+        .footer {
+            background-color: #757575;
+            height: 40px;
+            padding: 10px;
+            clear: both; /* Prevents the footer from breaking into floated items */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">Header</div>
+    <div class="menu">menu</div>
+    
+    <div class="main-container">
+        <div class="left-side">Left side</div>
+        <div class="content">Content</div>
+        <div class="right-side">Right</div>
+    </div>
+    
+    <div class="footer">Footer</div>
+
+</body>
+</html>` },
+        { id: 'PRASQ15', html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Flexbox Layout Structure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            padding: 10px;
+        }
+
+        /* Row 1: Full-width */
+        .area-1 {
+            background-color: #ffb77d;
+            flex: 0 0 100%;
+        }
+
+        /* Row 2: Half-width split */
+        .area-2 {
+            background-color: #8cb9df;
+            flex: 0 0 50%;
+        }
+        
+        .area-3 {
+            background-color: #83d6a8;
+            flex: 0 0 50%;
+        }
+
+        /* Row 3: One-third split */
+        .area-4 {
+            background-color: #e59385;
+            flex: 0 0 33.33%;
+        }
+
+        .area-5 {
+            background-color: #e8d082;
+            flex: 0 0 33.33%;
+        }
+
+        .area-6 {
+            background-color: #b1a7ec;
+            flex: 0 0 33.34%;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex-container">
+        <div class="box area-1">Content Area 1</div>
+        
+        <div class="box area-2">Content Area 2</div>
+        <div class="box area-3">Content Area 3</div>
+        
+        <div class="box area-4">Content Area 4</div>
+        <div class="box area-5">Content Area 5</div>
+        <div class="box area-6">Content Area 6</div>
+    </div>
+</body>
+</html>` },
+        { id: 'PRASQ16', html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three-State Responsive Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Base Component Sizing & Styling */
+        .header { background-color: #f07474; padding: 20px; }
+        .main   { background-color: #ffffff; padding: 40px; flex-grow: 1; border: 1px solid #eaeaea; }
+        .left   { background-color: #ffd166; padding: 30px; }
+        .right  { background-color: #b6f08e; padding: 30px; }
+        .footer { background-color: #62b6eb; padding: 20px; }
+
+        .header { order: 1; }
+        .main   { order: 2; }
+        .left   { order: 3; }
+        .right  { order: 4; }
+        .footer { order: 5; }
+
+        @media (min-width: 600px) and (max-width: 899px) {
+            .container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .header { width: 100%; order: 1; }
+            .main   { width: 100%; order: 2; }
+            .left   { width: 50%;  order: 3; }
+            .right  { width: 50%;  order: 4; }
+            .footer { width: 100%; order: 5; }
+        }
+
+        @media (min-width: 900px) {
+            .container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .header { width: 100%; order: 1; }
+            
+            /* Columns sit horizontally side-by-side */
+            .left   { width: 20%;  order: 2; height: calc(100vh - 120px); }
+            .main   { width: 60%;  order: 3; height: calc(100vh - 120px); }
+            .right  { width: 20%;  order: 4; height: calc(100vh - 120px); }
+            
+            .footer { width: 100%; order: 5; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">Header</header>
+        <main class="main">Main</main>
+        <aside class="left">Left</aside>
+        <aside class="right">Right</aside>
+        <footer class="footer">Footer</footer>
+    </div>
+
+</body>
+</html>` },
+        { id: 'PRASQ17', html: `<!DOCTYPE html>
+<html>
+<head>
+  <title>2nd Semester Grade Sheet</title>
+
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 60%;
+      margin: auto;
+      text-align: center;
+      font-family: Arial;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    th {
+      background: green;
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>2nd Semester Grade Sheet</h2>
+
+<table>
+  <tr>
+    <th>Subject</th>
+    <th>Marks</th>
+    <th>Grade</th>
+  </tr>
+
+  <tr>
+    <td>Discrete Structure</td>
+    <td>85</td>
+    <td>A</td>
+  </tr>
+
+  <tr>
+    <td>Digital Logic</td>
+    <td>80</td>
+    <td>A</td>
+  </tr>
+
+  <tr>
+    <td>OOP using Java</td>
+    <td>88</td>
+    <td>A+</td>
+  </tr>
+
+  <tr>
+    <td>OBHRM</td>
+    <td>75</td>
+    <td>B+</td>
+  </tr>
+
+  <tr>
+    <td>Business Communication</td>
+    <td>82</td>
+    <td>A</td>
+  </tr>
+
+</table>
+
+</body>
+</html>` },
+        { id: 'PRASQ18', html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Overlay</title>
+    <style>
+        body {
+            background-color: #6499b2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .card {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9) 70%);
+            padding: 30px 20px;
+            color: #fff;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: 0.4s;
+        }
+        .card:hover .overlay {
+            opacity: 1;
+        }
+        h2 { margin: 0 0 8px; font-size: 22px; }
+        p { margin: 0 0 15px; font-size: 13px; color: #ccc; }
+        a {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <img src="https://png.pngtree.com/thumb_back/fh260/background/20241112/pngtree-single-tree-on-a-hill-image_16549353.jpg" alt="Tree landscape">
+        <div class="overlay">
+            <h2>Card Title</h2>
+            <p>This is a sample card description</p>
+            <a href="#">Read More</a>
+        </div>
+    </div>
+
+</body>
+</html>` },
+        { id: 'PRASQ19', html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team Members</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        body {
+            background-color: #ededed;
+            padding: 40px 20px;
+        }
+        h2 { font-size: 28px; margin: 5px 0 40px; }
+        p { font-size: 12px; text-transform: uppercase; color: #888; }
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .name { font-weight: bold; color: #333; }
+        .role { font-size: 13px; color: #777; margin: 5px 0 20px; }
+        .socials { display: flex; justify-content: center; gap: 10px; }
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            color: #555;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        a:hover { background: #ddd; }
+    </style>
+</head>
+<body>
+
+    <p>Experts</p>
+    <h2>Our Team Members</h2>
+
+    <div class="container">
+        <div class="card">
+            <img src="https://picsum.photos" alt="Noman">
+            <div class="name">Noman</div>
+            <div class="role">Programmer</div>
+            <div class="socials"><a href="#">f</a><a href="#">y</a><a href="#">i</a></div>
+        </div>
+        <div class="card">
+            <img src="https://picsum.photos" alt="Aasim">
+            <div class="name">Aasim</div>
+            <div class="role">CEO</div>
+            <div class="socials"><a href="#">f</a><a href="#">y</a><a href="#">i</a></div>
+        </div>
+        <div class="card">
+            <img src="https://picsum.photos" alt="Jahanzaib">
+            <div class="name">Jahanzaib</div>
+            <div class="role">WordPress</div>
+            <div class="socials"><a href="#">f</a><a href="#">y</a><a href="#">i</a></div>
+        </div>
+        <div class="card">
+            <img src="https://picsum.photos" alt="Faheem">
+            <div class="name">Faheem</div>
+            <div class="role">YouTuber</div>
+            <div class="socials"><a href="#">f</a><a href="#">y</a><a href="#">i</a></div>
+        </div>
+    </div>
+
+</body>
+</html>` },
+        { id: 'PRASQ20', html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Hover Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .box {
+            overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition-duration: 0.3s;
+        }
+
+        p {
+            margin-top: 10px;
+            margin-bottom: 0px;
+            font-size: 14px;
+        }
+
+        .z-in:hover img {
+            transform: scale(1.1);
+        }
+
+        .fade:hover img {
+            opacity: 0.5;
+        }
+
+        .blur:hover img {
+            filter: blur(4px);
+        }
+
+        .mask:hover img {
+            filter: grayscale(1);
+        }
+
+        .z-out img {
+            transform: scale(1.1);
+        }
+
+        .z-out:hover img {
+            transform: scale(1);
+        }
+
+        .b-out img {
+            filter: blur(4px);
+        }
+
+        .b-out:hover img {
+            filter: blur(0);
+        }
+
+        .shft:hover img {
+            transform: translateY(-8px);
+        }
+
+        .fall:hover img {
+            transform: translateY(100%);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>HOVER-EFFECT CSS</h2>
+
+    <div class="grid">
+        <div class="box z-in"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7NSOyTrgSPbEtmVvizI1qicOJ72wkA4ajRA&s"><p>Hover-ZoomIn</p></div>
+        <div class="box fade"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStqDbgLF_rLfAbAGM_wXR-uV7Y1Xkuy9yhhA&s"><p>Hover-Fade</p></div>
+        <div class="box blur"><img src="https://g2.img-dpreview.com/0092C98398254023B844D78BFF2EC71F.jpg"><p>Hover-Blur</p></div>
+        <div class="box mask"><img src="https://media.istockphoto.com/id/1135639939/photo/a-canadian-sunset-turns-the-clouds-pink-in-northern-saskatchewan.jpg?s=612x612&w=0&k=20&c=YUnoVNb1ZwT9_TWSNLfSDPEKNdZH8Q1_TsZL-QDOmps="><p>Hover-Mask</p></div>
+        <div class="box z-out"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwZh3U28eYDxXKACyu6Vul4qOYTOrhXGbs7w&s"><p>Hover-Zoomout</p></div>
+        <div class="box b-out"><img src="https://aseantourism.travel/wp-content/uploads/waterfall-in-vietnam-1024x682.jpg"><p>Hover-Blurout</p></div>
+        <div class="box shft"><img src="https://media.istockphoto.com/id/1317323736/photo/a-view-up-into-the-trees-direction-sky.webp?b=1&s=612x612&w=0&k=20&c=8xbZvMyptEaqMW46diKakhVgkPkAzBi5l7J1yveCZFk="><p>Overlay Text</p></div>
+        <div class="box fall"><img src="https://sun-ecommerce-cdn.azureedge.net/ecommerce/service-sites/asset/SunParadiseLandPhuQuoc/google-doc/post_id_12666/AD_4nXdyCKc42N4HtK_vAI-8JR1hV-QfZSB1nW8RbhoiNjMxYJn2kIAxfi_mox1mlpN_mXLXex-tebtsOLbBwHCNkh-VNxbj3MaVCr6T9c6-gt4C-ZvToxbHnGcdkub5i5X0moHi5v6TVNRNNrv4hDvBQRgVy3Wp7N2zYH0051m5HexPbTmB.webp"><p>Hover-Fall</p></div>
+    </div>
+
+</body>
+</html>` },
+        { id: 'PRASQ21', html: `<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body{
+  font-family: Arial;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-size: 13px;
+}
+
+/* Header */
+.header{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.logo{
+  width:50px;
+  height:50px;
+  background:#ccc;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:50%;
+}
+
+/* Invoice box */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+td,th{
+  border:1px solid #ddd;
+  padding:6px;
+  text-align:center;
+}
+
+th{
+  background:#e8490a;
+  color:white;
+}
+
+/* bottom */
+.bottom{
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+
+.balance{
+  background:#e8490a;
+  color:white;
+  padding:8px;
+  font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">LOGO</div>
+  <h2>INVOICE</h2>
+</div>
+
+<!-- Info -->
+<p><b>Company Name</b> | Address | Contact</p>
+
+<!-- Table -->
+<table>
+  <tr>
+    <th>Description</th>
+    <th>Qty</th>
+    <th>Price</th>
+    <th>Total</th>
+  </tr>
+
+  <tr>
+    <td>Item 1</td>
+    <td>1</td>
+    <td>100</td>
+    <td>100</td>
+  </tr>
+
+  <tr>
+    <td>Item 2</td>
+    <td>2</td>
+    <td>200</td>
+    <td>400</td>
+  </tr>
+</table>
+
+<!-- Bottom -->
+<div class="bottom">
+  <div>Payment Details</div>
+  <div class="balance">Balance Due: 500</div>
+</div>
+
+</body>
+</html>` },
+        { id: 'PRASQ22', html: `<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .box {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      flex: 1;
+      min-width: 200px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-size: 12px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #263052;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h2> Registration/Login form</h2>
+
+  <div class="row">
+    <div class="field">
+      <label>First Name</label>
+      <input type="text">
+    </div>
+
+    <div class="field">
+      <label>Last Name</label>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Username</label>
+      <input type="text">
+    </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Phone</label>
+      <input type="text">
+    </div>
+
+    <div class="field">
+      <label>Gender</label>
+      <select>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <button>Submit</button>
+
+</div>
+
+</body>
+</html>` }
+    ];
+
+    // ---------- render cards ----------
+    const grid = document.getElementById('fileGrid');
+
+    fileData.forEach((file, index) => {
+        const card = document.createElement('div');
+        card.className = 'file-card';
+
+        // header
+        const header = document.createElement('div');
+        header.className = 'file-header';
+        header.innerHTML = `
+            <h2>📄 ${file.id} <span>#${index+1}</span></h2>
+            <span class="badge">preview + source</span>
+        `;
+
+        // preview iframe
+        const previewWrap = document.createElement('div');
+        previewWrap.className = 'preview-iframe-wrap';
+        const iframe = document.createElement('iframe');
+        iframe.srcdoc = file.html;
+        iframe.title = file.id;
+        previewWrap.appendChild(iframe);
+
+        // code toggle button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'code-toggle';
+        toggleBtn.textContent = `📜 View source code (${file.id})`;
+        toggleBtn.setAttribute('aria-expanded', 'false');
+
+        // code content
+        const codeDiv = document.createElement('div');
+        codeDiv.className = 'code-content';
+        const pre = document.createElement('pre');
+        pre.textContent = file.html;
+        codeDiv.appendChild(pre);
+
+        // toggle logic
+        toggleBtn.addEventListener('click', () => {
+            const isOpen = codeDiv.classList.toggle('open');
+            toggleBtn.classList.toggle('open');
+            toggleBtn.setAttribute('aria-expanded', isOpen);
+        });
+
+        // assemble card
+        card.appendChild(header);
+        card.appendChild(previewWrap);
+        card.appendChild(toggleBtn);
+        card.appendChild(codeDiv);
+        grid.appendChild(card);
+    });
+</script>
+
+</body>
 </html>
